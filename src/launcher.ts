@@ -1,3 +1,4 @@
+#!/usr/bin/env node 
 
 ////
 ////    VRok
@@ -48,6 +49,9 @@ export function makeid(length) {
     return result;
 }
 
+/**
+ * Save config to filesystem
+ */
 export function saveConfig() {
     fs.writeFileSync(path.join(process.cwd(), ".vrok.json"), JSON.stringify($config), {
         encoding: 'utf-8'

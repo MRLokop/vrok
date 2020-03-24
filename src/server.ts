@@ -46,6 +46,7 @@ const wsServer = new WebSocketServer({
     autoAcceptConnections: false
 });
 
+// On incoming request
 wsServer.on('request', (request) => {
 
     let cid = id++;
@@ -66,10 +67,24 @@ wsServer.on('request', (request) => {
 });
 
 
+// TODO: Add nginx config template
+
 export class ClientConnection {
+    /**
+     * Websocket connection
+     */
     private connection: any;
+    /**
+     * Client login step
+     */
     private step = "connection";
-    private tunnel;
+    /**
+     * Tunnel id
+     */
+    private tunnel: string;
+    /**
+     * uniqure client id
+     */
     private client_id: number;
 
     constructor(connection: any, cid: number) {
@@ -77,10 +92,17 @@ export class ClientConnection {
         this.client_id = cid;
     }
 
-    send(data: any) {
+    /**
+     * Deserialize and send data to client
+     */
+    send(data: Object) {
         this.connection.sendUTF(JSON.stringify(data));
     }
 
+    /**
+     * handle message
+     * @param data 
+     */
     handleMessage(data: any) {
         switch (data['type']) {
             case "get-tunnel-id":
@@ -95,6 +117,8 @@ export class ClientConnection {
                         tunnel: this.tunnel,
                         domain: $config.domain
                     })
+
+                    // TODO: Add socket server (not websocket, just socket)
                 } else {
                     //// Tunnel already in use
                     this.send({
@@ -107,25 +131,40 @@ export class ClientConnection {
 
     }
 
-
+    /**
+     * Handle close connection
+     * @param reasonCode close code
+     * @param description close descriotion
+     */
     handleClose(reasonCode: number, description: string) {
         console.log("    [" + this.client_id + "]  Connection closed: '" + description + "'  (" + reasonCode + ")")
     }
 
+    /**
+     * Get websocket connection
+     */
     getConnection(): any {
         return this.connection;
     }
 
+    /**
+     * Get client id
+     */
     getId(): number {
         return this.client_id;
     }
-    
+
+    /**
+     * Get tunnel
+     */
     getTunnel(): string {
         return this.tunnel;
     }
 }
 
-
+/**
+ * Create a template-str
+ */
 let template = (client: ClientConnection) => {
     let tunnel = client.getTunnel();
     return `server {
@@ -154,7 +193,7 @@ function reloadConfiguration() {
         console.log(chalk.yellow("W") + "  " + chalk.red("Failed to reload config: 'property server_module is undefined'"))
         return;
     }
-    
+
     let config = "";
     for (const tunnel of Object.keys(tunnels)) {
         const client: ClientConnection = tunnels[tunnel];

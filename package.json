@@ -4,7 +4,11 @@
   "description": "NGROK alternative",
   "repository": "https://github.com/TheMRLokopOff/vrok",
   "main": "index.js",
+  "bin": {
+    "vrok": "build/launcher.js"
+  },
   "scripts": {
+    "test": "mocha",
     "start": "tsc && node build/launcher.js",
     "dev": "nodemon --exec \"tsc && node build/launcher.js server || exit 0\" --ext \"ts\""
   },
