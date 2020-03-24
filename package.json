@@ -1,0 +1,25 @@
+{
+  "name": "vrok",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && node build/launcher.js",
+    "dev": "nodemon --exec \"tsc && node build/launcher.js server || exit 0\" --ext \"ts\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^3.0.0",
+    "minimist": "^1.2.5",
+    "pug": "^2.0.4",
+    "tslib": "^1.11.1",
+    "typescript": "^3.8.3",
+    "websocket": "^1.0.31"
+  },
+  "devDependencies": {
+    "@types/node": "^13.9.3",
+    "nodemon": "^2.0.2"
+  }
+}
