@@ -13,11 +13,19 @@
 ////
 
 import { $config, $args, saveConfig } from "./launcher";
+import chalk = require('chalk');
 
-console.log($args);
-if ($args.domain) {
-    console.log("Setting domain to: " + $args.domain)
-    $config.domain = $args.domain;
+if ($args.set !== undefined) {
+    for (const prop of Object.keys($args.set)) {
+        const value = $args.set[prop];
+        $config[prop] = value;
+        console.info("Setting property '" + chalk.green(prop) + "' to " + chalk.blue(JSON.stringify(value)))
+    }
+
+    console.log()
+    console.info(" Changed " + chalk.blue(Object.keys($args.set).length) + " values")
+    console.log()
 }
+
 // TODO: Add target.[port/host] setting
 saveConfig()

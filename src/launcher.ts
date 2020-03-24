@@ -13,9 +13,11 @@
 ////        Coded with <3
 ////
 
+import * as chalk from 'chalk';
 import * as fs from 'fs';
 import * as path from 'path';
 export const $args = require('minimist')(process.argv.slice(2));
+
 
 export let $config: any = {};
 if (fs.existsSync(path.join(process.env.HOME, ".vrok.json"))) {
@@ -28,6 +30,27 @@ if (fs.existsSync(path.join(process.env.HOME, ".vrok.json"))) {
         }));
 
         $config = JSON.parse(fs.readFileSync(path.join(process.env.HOME, ".vrok.json")).toString());
+    }
+}
+
+if ($config.color === undefined || $config.color) {
+    const backup = {...console}; // Copy methods of console
+    console.log = (...data) => {
+        backup.log("  ", ...data);
+    }
+    console.info = (...data) => {
+        backup.info(chalk.blue("I "), ...data);
+    }
+    console.error = (...data) => {
+        backup.error(chalk.red("E "), ...data);
+    }
+    console.warn = (...data) => {
+        backup.warn(chalk.red("W "), ...data);
+    }
+    console.trace = (...data) => {
+        if ($config.trace) {
+            backup.trace(chalk.gray("T "), ...data);
+        }
     }
 }
 
@@ -60,7 +83,7 @@ export function saveConfig() {
 
 switch ($args["_"][0]) {
     case ("server"):
-        console.log(":server");
+        console.log("Task :" + chalk.gray("server"));
         try {
             require("./server");
         } catch (e) {
@@ -71,7 +94,7 @@ switch ($args["_"][0]) {
         break;
 
     case ("client"):
-        console.log(":client");
+        console.log("Task :" + chalk.gray("client"));
         try {
             require("./client");
         } catch (e) {
@@ -82,7 +105,7 @@ switch ($args["_"][0]) {
         break;
 
     case ("config"):
-        console.log(":config");
+        console.log("Task :" + chalk.gray("client"));
         try {
             require("./config");
         } catch (e) {

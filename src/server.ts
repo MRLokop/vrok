@@ -38,7 +38,7 @@ if (!$config.domain) {
 }
 
 server.listen(port, () => {
-    console.log('   Server is listening on port ' + port);
+    console.log('   Server is listening on port ' + chalk.green(port));
 });
 
 const wsServer = new WebSocketServer({
@@ -132,7 +132,6 @@ export class ClientConnection {
                 }
                 break;
         }
-
     }
 
     /**
