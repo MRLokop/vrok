@@ -1,5 +1,18 @@
+
+////
+////    VRok
+////        Open-Source alternative for fast tunneling local network application
+////        like as ssh, web server, game servers and many more
+////
+////    Repository: https://github.com/TheMRLokopOff/vrok
+////        ( License: MIT )
+////
+////    (c) Venity and MFSoftware   2020
+////
+////        Coded with <3
+////
+
 import { $config } from "./launcher";
-import * as pug from 'pug';
 import * as chalk from '../node_modules/chalk';
 
 const tunnels: any = {};
@@ -8,22 +21,6 @@ let id = 0;
 const port = $config.serverPort || 3000;
 const WebSocketServer = require('websocket').server;
 const http = require('http');
-
-const nginxTemplateFunction = pug.compile(`server {
-    stream {
-        upstream tunnel_#{tunnel} {
-          least_conn;
-          server 127.0.0.1:#{port};
-        }
-      }
-      
-      server {
-          listen     80;
-          server_name #{tunnel}.#{domain};
-          proxy_pass tunnel_#{tunel};
-      }
-}
-`);
 
 const server = http.createServer((request, response) => {
     // On http connect (browser)
@@ -130,11 +127,21 @@ export class ClientConnection {
 
 
 let template = (client: ClientConnection) => {
-    return nginxTemplateFunction({
-        tunnel: client.getTunnel(),
-        domain: $config.domain,
-        port: 2222
-    });
+    let tunnel = client.getTunnel();
+    return `server {
+        stream {
+            upstream tunnel_#{${tunnel}} {
+              least_conn;
+              server 127.0.0.1:${2222};
+            }
+          }
+          
+          server {
+              listen     80;
+              server_name ${tunnel}.${$config.domain};
+              proxy_pass tunnel_${tunnel};
+          }
+    }`;
 
     ///
     /// -> server_name = test.tunnel.venity.site
