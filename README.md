@@ -26,3 +26,6 @@ npm i -g # or with yarn: yarn install -g
 > host: test.tunnel.venity.site
 > 
 > Template: [tunnel].[domain]
+
+## License
+MIT
