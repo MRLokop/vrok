@@ -19,5 +19,5 @@ if ($args.domain) {
     console.log("Setting domain to: " + $args.domain)
     $config.domain = $args.domain;
 }
-
+// TODO: Add target.[port/host] setting
 saveConfig()
