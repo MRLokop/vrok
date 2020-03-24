@@ -50,11 +50,12 @@ const wsServer = new WebSocketServer({
 wsServer.on('request', (request) => {
 
     let cid = id++;
-    console.log('    [' + cid + '] Connection: ' + request.host);
 
     const
         connection = request.accept('tunnel', request.origin),
         client = new ClientConnection(connection, cid);
+
+    console.log('    ' + client.getPrintableClientId() + ' Connection: ' + request.host);
 
     connection.on('message', (message) => {
         const data = JSON.parse(message.type === 'utf8' ? message.utf8Data : console.error("Binary data", message) as any || "{}");
@@ -118,6 +119,9 @@ export class ClientConnection {
                         domain: $config.domain
                     })
 
+                    console.log('    ' + this.getPrintableClientId() + ' Setup tunnel: ' + this.tunnel);
+
+
                     // TODO: Add socket server (not websocket, just socket)
                 } else {
                     //// Tunnel already in use
@@ -137,7 +141,7 @@ export class ClientConnection {
      * @param description close descriotion
      */
     handleClose(reasonCode: number, description: string) {
-        console.log("    [" + this.client_id + "]  Connection closed: '" + description + "'  (" + reasonCode + ")")
+        console.log("    " + this.getPrintableClientId() + "  Connection closed: '" + description + "'  (" + reasonCode + ")")
     }
 
     /**
@@ -159,6 +163,13 @@ export class ClientConnection {
      */
     getTunnel(): string {
         return this.tunnel;
+    }
+
+    /**
+     * Get printable client id
+     */
+    getPrintableClientId(color = "green") {
+        return chalk.gray("[ " + chalk[color](this.client_id) + " ]")
     }
 }
 
