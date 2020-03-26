@@ -1,4 +1,4 @@
-#!/usr/bin/env node 
+#!/usr/bin/env node
 
 ////
 ////    VRok
@@ -16,8 +16,8 @@
 import * as chalk from 'chalk';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as deepmerge from 'deepmerge';
 export const $args = require('minimist')(process.argv.slice(2));
-
 
 export let $config: any = {};
 if (fs.existsSync(path.join(process.env.HOME, ".vrok.json"))) {
@@ -33,23 +33,36 @@ if (fs.existsSync(path.join(process.env.HOME, ".vrok.json"))) {
     }
 }
 
+
+/// Data/settings
+export const $data: any = deepmerge($config, $args);
+
+if ($data.debug === undefined && $data.trace) {
+    $data.debug = true;
+}
+
 if ($config.color === undefined || $config.color) {
-    const backup = {...console}; // Copy methods of console
+    const backup = { ...console }; // Copy methods of console
     console.log = (...data) => {
-        backup.log("  ", ...data);
+        backup.log(" ", ...data);
     }
     console.info = (...data) => {
-        backup.info(chalk.blue("I "), ...data);
+        backup.info(chalk.blue("I"), ...data);
     }
     console.error = (...data) => {
-        backup.error(chalk.red("E "), ...data);
+        backup.error(chalk.red("E"), ...data);
     }
     console.warn = (...data) => {
-        backup.warn(chalk.red("W "), ...data);
+        backup.warn(chalk.yellow("W"), ...data);
     }
     console.trace = (...data) => {
-        if ($config.trace) {
-            backup.trace(chalk.gray("T "), ...data);
+        if ($data.trace) {
+            backup.log(chalk.gray("T"), ...data);
+        }
+    }
+    console.debug = (...data) => {
+        if ($data.debug) {
+            backup.debug("D", ...data);
         }
     }
 }
@@ -78,44 +91,21 @@ export function makeid(length) {
 export function saveConfig() {
     fs.writeFileSync(path.join(process.cwd(), ".vrok.json"), JSON.stringify($config), {
         encoding: 'utf-8'
-    }); 
+    });
 }
 
-switch ($args["_"][0]) {
-    case ("server"):
-        console.log("Task :" + chalk.gray("server"));
-        try {
-            require("./server");
-        } catch (e) {
-            if (e.message && e.message !== "")
-                console.error(e);
-            process.exit(1);
-        }
-        break;
+console.info("Entering CLI mode...")
+if ($args._[0] !== undefined) {
+    require("./task").runTask($args._[0], $args)
+} else {
+    const taskManager = require("./task");
+    console.log(chalk.blue("All tasks:"));
+    console.log();
 
-    case ("client"):
-        console.log("Task :" + chalk.gray("client"));
-        try {
-            require("./client");
-        } catch (e) {
-            if (e.message && e.message !== "")
-                console.error(e);
-            process.exit(1);
-        }
-        break;
-
-    case ("config"):
-        console.log("Task :" + chalk.gray("client"));
-        try {
-            require("./config");
-        } catch (e) {
-            if (e.message && e.message !== "")
-                console.error(e);
-            process.exit(1);
-        }
-        break;
-
-    default:
-        console.error("task " + $args["_"][0] + " not found")
-        break;
+    const allTasks = taskManager.getTasks();
+    for (const taskID of Object.keys(allTasks)) {
+        const task = allTasks[taskID];
+        console.log(" - " + chalk.green(taskID))
+    }
+    
 }

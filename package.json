@@ -1,9 +1,11 @@
 {
   "name": "vrok",
-  "version": "1.0.0",
+  "version": "0.5",
   "description": "NGROK alternative",
   "repository": "https://github.com/TheMRLokopOff/vrok",
-  "main": "index.js",
+  "status": "WIP",
+  "branch": "dev",
+  "main": "build/index.js",
   "bin": {
     "vrok": "build/launcher.js"
   },
@@ -23,13 +25,19 @@
   "license": "MIT",
   "dependencies": {
     "chalk": "^3.0.0",
+    "deepmerge": "^4.2.2",
     "minimist": "^1.2.5",
     "tslib": "^1.11.1",
     "websocket": "^1.0.31"
   },
   "devDependencies": {
-    "typescript": "^3.8.3",
     "@types/node": "^13.9.3",
-    "nodemon": "^2.0.2"
-  }
+    "nodemon": "^2.0.2",
+    "typescript": "^3.8.3"
+  },
+  "displayName": "VRok",
+  "type": "cli/library",
+  "categories": [
+    "Other"
+  ]
 }

@@ -1,0 +1,11 @@
+### VRok 0.5 `[dev]`
+- `+` Add Server API
+- `*` Move client, server to api/
+- `+` Add index file
+- `+` Add tasks systems
+- `+` Add CLI file
+- `+` Added tunnelers system
+- `*` Logging changes
+- `+` Add task file
+- `*` Starting rewrite Client
+- `*` Starting writing runTask Method
