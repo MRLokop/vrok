@@ -1,16 +1,17 @@
-
-////
-////    VRok
-////        Open-Source alternative for fast tunneling local network application
-////        like as ssh, web server, game servers and many more
-////
-////    Repository: https://github.com/TheMRLokopOff/vrok
-////        ( License: MIT )
-////
-////    (c) Venity and MFSoftware   2020
-////
-////        Coded with <3
-////
+///  
+///  VROK PROJECT
+///    Open source ngrok alternative,
+///    for self-hosting
+///  
+///    >> File: src/api/tunnelers/EmptyTunneler.ts
+///  
+///    License: MIT
+///    Repository: https://github.com/TheMRLokopOff/vrok
+///  
+///    >> Created: 26.03.2020, 07:07:16
+///  
+///    (c) 2020 «Venity» and «MFSoftware»
+///  
 
 import { VRokServerTunneler, VRokClientConnection, VRokServer } from '../server';
 
