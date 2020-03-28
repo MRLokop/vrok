@@ -11,8 +11,11 @@
   },
   "scripts": {
     "test": "mocha",
-    "start": "tsc && node build/launcher.js",
-    "dev": "nodemon --exec \"tsc && node build/launcher.js server || exit 0\" --ext \"ts\""
+    "server": "tsc && node build/launcher.js server",
+    "client": "tsc && node build/launcher.js client",
+    "config": "tsc && node build/launcher.js config",
+    "run": "tsc && node build/launcher.js",
+    "dev:server": "nodemon --exec \"tsc && node build/launcher.js server || exit 0\" --ext \"ts\""
   },
   "keywords": [
     "tunneling",
@@ -26,6 +29,7 @@
   "dependencies": {
     "chalk": "^3.0.0",
     "deepmerge": "^4.2.2",
+    "jsonwebtoken": "^8.5.1",
     "minimist": "^1.2.5",
     "tslib": "^1.11.1",
     "websocket": "^1.0.31"

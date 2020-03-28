@@ -3,7 +3,7 @@
 ///    Open source ngrok alternative,
 ///    for self-hosting
 ///  
-///    >> File: src/task.ts
+///    >> File: src/utils/task.ts
 ///  
 ///    License: MIT
 ///    Repository: https://github.com/TheMRLokopOff/vrok
@@ -16,11 +16,11 @@
 import path = require('path');
 import chalk = require('chalk');
 import { fstatSync, statSync, readdirSync } from 'fs';
-import { $config, $data } from './launcher';
-import { $tasks } from './tasks/cli';
+import { $config, $data } from '../launcher';
+import { $tasks } from '../tasks/cli';
 
 export const tasksLocations = [
-    path.join(__dirname, "tasks")
+    path.join(__dirname, "..", "tasks")
 ];
 
 /**
@@ -59,8 +59,15 @@ export function loadTasksFromFile(location: string) {
  * @param task name
  * @param options data
  */
-export function runTask(task, options = {}) {
+export function runTask(taskID, options = {}) {
     // TODO Implement methods
+    const task = regTasks[taskID];
+    if (task !== undefined) {
+        console.info("Task: " + chalk.blue(taskID) + "...")
+        task.handle(options);
+    } else {
+        console.error("Task '" + chalk.yellow(taskID) + "' not found")
+    }
 }
 
 /**

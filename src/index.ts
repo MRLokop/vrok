@@ -30,11 +30,12 @@ export class VRok {
     constructor() { /* SOME THING INTERESTING HERE */ }
 
     /**
-     * 
+     *
      * @param port server port
      * @param domain server domain
+     * @param eventListener callback
      */
-    createNewServer(port, domain): VRokServer {
-        return new VRokServer(port, domain);
+    createNewServer(port: number, domain: string | undefined, eventListener: (ev: string, data: any) => void): VRokServer {
+        return new VRokServer(port, domain, eventListener);
     }
 }

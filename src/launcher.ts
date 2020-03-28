@@ -14,7 +14,6 @@
 ///    (c) 2020 «Venity» and «MFSoftware»
 ///  
 
-
 import * as chalk from 'chalk';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -98,9 +97,9 @@ export function saveConfig() {
 
 console.info("Entering CLI mode...")
 if ($args._[0] !== undefined) {
-    require("./task").runTask($args._[0], $args)
+    require("./utils/task").runTask($args._[0], $args)
 } else {
-    const taskManager = require("./task");
+    const taskManager = require("./utils/task");
     console.log(chalk.blue("All tasks:"));
     console.log();
 

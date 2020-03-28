@@ -5,3 +5,4 @@ yarn.lock
 .vrok.json
 .idea
 vrok.iml
+secrets.json

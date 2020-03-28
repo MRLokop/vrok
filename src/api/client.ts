@@ -12,3 +12,5 @@
 ///  
 ///    (c) 2020 «Venity» and «MFSoftware»
 ///  
+
+// TODO: Implement client

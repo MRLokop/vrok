@@ -3,7 +3,7 @@
 ///    Open source ngrok alternative,
 ///    for self-hosting
 ///  
-///    >> File: src/utils.ts
+///    >> File: src/utils/utils.ts
 ///  
 ///    License: MIT
 ///    Repository: https://github.com/TheMRLokopOff/vrok

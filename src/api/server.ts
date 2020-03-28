@@ -14,7 +14,7 @@
 ///  
 
 import * as http from 'http';
-import { server as WebSocketServer } from 'websocket';
+import {server as WebSocketServer} from 'websocket';
 import chalk = require('chalk');
 
 export class VRokServer {
@@ -24,43 +24,64 @@ export class VRokServer {
     private tunneler: VRokServerTunneler;
     private clientIds = 0;
     private domain: string;
+    private eventListener: (event: string, data: any) => void;
 
-    constructor(port: number, domain: string) {
+    constructor(port: number, domain: string, eventListener: (event: string, data: any) => void) {
         this.domain = domain;
+        this.eventListener = eventListener;
         this.server = http.createServer((request, response) => {
-            // On http connect (browser)
-            response.write("<h1><b>VRok</b> - Free ngrok alternative</h1>")
-            response.end();
+            try {
+                eventListener('http-request', {request, response});
+            } catch (e) {
+                eventListener('error', {e});
+            }
         });
+        eventListener('http-create', {http: this.server});
 
         this.server.listen(port, () => {
-            console.log('   Server is listening on port ' + chalk.green(port));
+            try {
+                eventListener('http-server-listen', {port});
+            } catch (e) {
+                eventListener('error', {e});
+            }
         });
 
         this.wsServer = new WebSocketServer({
             httpServer: this.server,
             autoAcceptConnections: false
         });
+        eventListener('websocket-create', {ws: this.wsServer});
 
         // On incoming request
         this.wsServer.on('request', (request) => {
+            try {
+                eventListener('websocket-request', {request});
 
-            let cid = this.clientIds++;
+                let cid = this.clientIds++;
 
-            const
-                connection = request.accept('tunnel', request.origin),
-                client = new VRokClientConnection(this, connection, cid);
+                const
+                    connection = request.accept('tunnel', request.origin),
+                    client = new VRokClientConnection(this, connection, cid);
 
-            console.log('    ' + client.getPrintableClientId() + ' Connection: ' + request.host);
+                eventListener('client-connect', {client, connection});
 
-            connection.on('message', (message) => {
-                const data = JSON.parse(message.type === 'utf8' ? message.utf8Data : console.error("Binary data", message) as any || "{}");
-                client.handleMessage(data);
-            });
+                connection.on('message', (message) => {
+                    try {
+                        eventListener('client-message', {client, message});
+                        const data = JSON.parse(message.type === 'utf8' ? message.utf8Data : console.error("Binary data", message) as any || "{}");
+                        client.handleMessage(data);
+                    } catch (e) {
+                        eventListener('error', {e});
+                    }
+                });
 
-            connection.on('close', (reasonCode: number, description: string) => {
-                client.handleClose(reasonCode, description);
-            });
+                connection.on('close', (reasonCode: number, description: string) => {
+                    eventListener('client-close-connection', {client, reasonCode, description});
+                    client.handleClose(reasonCode, description);
+                });
+            } catch (e) {
+                eventListener('error', {e});
+            }
         });
 
     }
@@ -91,14 +112,14 @@ export class VRokServer {
     /**
      * Get server domain
      */
-    getDomain() : string {
+    getDomain(): string {
         return this.domain
     }
 
     /**
      * Get Tunneller
      */
-    getTunneller() : VRokServerTunneler {
+    getTunneller(): VRokServerTunneler {
         return this.tunneler;
     }
 
@@ -119,14 +140,14 @@ export class VRokServer {
  * Server configuration updater
  */
 export interface VRokServerTunneler {
-    
+
     /**
      * Add tunnel
      * @param tunnel name
      * @param connection client connection
      * @param server vrok server
      */
-    add(tunnel: string, connection: VRokClientConnection, server: VRokServer) : boolean;
+    add(tunnel: string, connection: VRokClientConnection, server: VRokServer): boolean;
 
     /**
      * Update all exists tunnels
@@ -135,8 +156,6 @@ export interface VRokServerTunneler {
     update(server: VRokServer);
 
 }
-
-// TODO: Add nginx config template
 
 export class VRokClientConnection {
 
@@ -161,7 +180,7 @@ export class VRokClientConnection {
     private client_id: number;
 
     /**
-     * VRok Server 
+     * VRok Server
      */
     private server: VRokServer;
 
@@ -180,7 +199,7 @@ export class VRokClientConnection {
 
     /**
      * handle message
-     * @param data 
+     * @param data
      */
     handleMessage(data: any) {
         switch (data['type']) {
