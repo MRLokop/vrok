@@ -35,7 +35,7 @@
     "websocket": "^1.0.31"
   },
   "devDependencies": {
-    "@types/node": "^13.9.3",
+    "@types/node": "^13.9.5",
     "nodemon": "^2.0.2",
     "typescript": "^3.8.3"
   },

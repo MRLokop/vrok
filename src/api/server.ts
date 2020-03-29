@@ -14,7 +14,7 @@
 ///  
 
 import * as http from 'http';
-import {server as WebSocketServer} from 'websocket';
+import { server as WebSocketServer } from 'websocket';
 import chalk = require('chalk');
 
 export class VRokServer {

@@ -34,7 +34,6 @@ if (fs.existsSync(path.join(process.env.HOME, ".vrok.json"))) {
     }
 }
 
-
 /// Data/settings
 export const $data: any = deepmerge($config, $args);
 
@@ -109,4 +108,16 @@ if ($args._[0] !== undefined) {
         console.log(" - " + chalk.green(taskID))
     }
     
+}
+
+// Secrets configuration
+
+export let $secrets: ISecretsConfiguraion;
+
+if (fs.existsSync('../secrets.json')) {
+    $secrets = JSON.parse(fs.readFileSync('../secrets.json', { encoding: 'utf8' }));
+} // TODO: Else, if we need, add loging for this case
+
+interface ISecretsConfiguraion {
+    jwt: String
 }

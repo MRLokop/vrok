@@ -15,10 +15,12 @@
 
 
 import * as jwt from 'jsonwebtoken';
-import * as fs from 'fs';
-
-// TODO:
+import { $secrets } from '../launcher';
 
 export function create(data: Object): String {
-    return jwt.sign(data, 'secret', { expiresIn: '30d' });
+    return jwt.sign(data, $secrets.jwt, { expiresIn: '30d' });
+}
+
+export function verify(token: String): Object {
+    return jwt.verify(token, $secrets.jwt);
 }
