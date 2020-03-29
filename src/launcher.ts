@@ -45,21 +45,21 @@ if ($config.color === undefined || $config.color) {
     const backup = { ...console }; // Copy methods of console
     console.log = (...data) => {
         backup.log(" ", ...data);
-    }
+    };
     console.info = (...data) => {
         backup.info(chalk.blue("I"), ...data);
-    }
+    };
     console.error = (...data) => {
         backup.error(chalk.red("E"), ...data);
-    }
+    };
     console.warn = (...data) => {
         backup.warn(chalk.yellow("W"), ...data);
-    }
+    };
     console.trace = (...data) => {
         if ($data.trace) {
             backup.log(chalk.gray("T"), ...data);
         }
-    }
+    };
     console.debug = (...data) => {
         if ($data.debug) {
             backup.debug("D", ...data);
@@ -73,6 +73,19 @@ if ($args.auth !== undefined) {
     fs.writeFileSync(path.join(process.env.HOME, ".vrok.json"), JSON.stringify($config));
     console.log("--> Auth-Token updated")
 
+}
+
+
+// Secrets configuration
+
+export let $secrets: ISecretsConfiguraion;
+
+if (fs.existsSync('../secrets.json')) {
+    $secrets = JSON.parse(fs.readFileSync('../secrets.json', { encoding: 'utf8' }));
+} // TODO: Else, if we need, add loging for this case
+
+interface ISecretsConfiguraion {
+    jwt: String
 }
 
 export function makeid(length) {
@@ -108,16 +121,4 @@ if ($args._[0] !== undefined) {
         console.log(" - " + chalk.green(taskID))
     }
     
-}
-
-// Secrets configuration
-
-export let $secrets: ISecretsConfiguraion;
-
-if (fs.existsSync('../secrets.json')) {
-    $secrets = JSON.parse(fs.readFileSync('../secrets.json', { encoding: 'utf8' }));
-} // TODO: Else, if we need, add loging for this case
-
-interface ISecretsConfiguraion {
-    jwt: String
 }
