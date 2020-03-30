@@ -2,17 +2,12 @@
 ///  VROK PROJECT
 ///    Open source ngrok alternative,
 ///    for self-hosting
-///  
-///    >> File: src/utils/task.ts
-///  
+///
 ///    License: MIT
 ///    Repository: https://github.com/TheMRLokopOff/vrok
-///  
-///    >> Created: 26.03.2020, 07:08:08
-///  
+///
 ///    (c) 2020 «Venity» and «MFSoftware»
-///  
-
+///
 import path = require('path');
 import chalk = require('chalk');
 import { fstatSync, statSync, readdirSync } from 'fs';

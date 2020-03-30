@@ -2,17 +2,12 @@
 ///  VROK PROJECT
 ///    Open source ngrok alternative,
 ///    for self-hosting
-///  
-///    >> File: src/index.ts
-///  
+///
 ///    License: MIT
 ///    Repository: https://github.com/TheMRLokopOff/vrok
-///  
-///    >> Created: 26.03.2020, 07:07:47
-///  
+///
 ///    (c) 2020 «Venity» and «MFSoftware»
-///  
-
+///
 import { VRokServer } from "./api/VRokServer";
 
 /**

@@ -2,17 +2,12 @@
 ///  VROK PROJECT
 ///    Open source ngrok alternative,
 ///    for self-hosting
-///  
-///    >> File: src/tasks/SimpleTasks.ts
-///  
+///
 ///    License: MIT
 ///    Repository: https://github.com/TheMRLokopOff/vrok
-///  
-///    >> Created: 26.03.2020, 07:07:40
-///  
+///
 ///    (c) 2020 «Venity» and «MFSoftware»
-///  
-
+///
 import {$config, $args, saveConfig} from "../launcher";
 import * as chalk from 'chalk';
 import {VRokServer} from "../api/VRokServer";
