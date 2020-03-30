@@ -17,7 +17,7 @@ import path = require('path');
 import chalk = require('chalk');
 import { fstatSync, statSync, readdirSync } from 'fs';
 import { $config, $data } from '../launcher';
-import { $tasks } from '../tasks/cli';
+import { $tasks } from '../tasks/SimpleTasks';
 
 export const tasksLocations = [
     path.join(__dirname, "..", "tasks")
@@ -85,9 +85,9 @@ export interface VRokTask {
 }
 
 let error = false;
-console.debug("Loading tasks...")
+console.debug("Loading tasks...");
 for (const location of tasksLocations) {
-    console.debug("  -> Loading '" + chalk.green(location) + "'...")
+    console.debug("  -> Loading '" + chalk.green(location) + "'...");
     if (statSync(location).isDirectory) {
         readdirSync(location).forEach(a => {
             const p = path.join(location, a);
@@ -103,6 +103,6 @@ for (const location of tasksLocations) {
 }
 
 if (error && !$data.debug) {
-    console.warn("  To see more about error:")
+    console.warn("  To see more about error:");
     console.warn("     " + chalk.yellow("run with flag ") + chalk.yellowBright("--debug"))
 }

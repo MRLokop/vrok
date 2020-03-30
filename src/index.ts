@@ -13,7 +13,7 @@
 ///    (c) 2020 «Venity» and «MFSoftware»
 ///  
 
-import { VRokServer } from "./api/server";
+import { VRokServer } from "./api/VRokServer";
 
 /**
  * Main class for work with VRok
@@ -35,7 +35,7 @@ export class VRok {
      * @param domain server domain
      * @param eventListener callback
      */
-    createNewServer(port: number, domain: string | undefined, eventListener: (ev: string, data: any) => void): VRokServer {
-        return new VRokServer(port, domain, eventListener);
+    createNewServer(port: number): VRokServer {
+        return new VRokServer(port);
     }
 }

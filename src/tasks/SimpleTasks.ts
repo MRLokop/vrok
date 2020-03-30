@@ -3,7 +3,7 @@
 ///    Open source ngrok alternative,
 ///    for self-hosting
 ///  
-///    >> File: src/tasks/cli.ts
+///    >> File: src/tasks/SimpleTasks.ts
 ///  
 ///    License: MIT
 ///    Repository: https://github.com/TheMRLokopOff/vrok
@@ -15,7 +15,7 @@
 
 import {$config, $args, saveConfig} from "../launcher";
 import * as chalk from 'chalk';
-import {VRokServer} from "../api/server";
+import {VRokServer} from "../api/VRokServer";
 
 export const $tasks = [
     {

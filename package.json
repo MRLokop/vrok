@@ -15,7 +15,8 @@
     "client": "tsc && node build/launcher.js client",
     "config": "tsc && node build/launcher.js config",
     "run": "tsc && node build/launcher.js",
-    "dev:server": "nodemon --exec \"tsc && node build/launcher.js server || exit 0\" --ext \"ts\""
+    "dev:server": "nodemon --exec \"tsc && node build/launcher.js server || exit 0\" --ext \"ts\"",
+    "ts-build": "tsc"
   },
   "keywords": [
     "tunneling",
@@ -32,7 +33,7 @@
     "jsonwebtoken": "^8.5.1",
     "minimist": "^1.2.5",
     "tslib": "^1.11.1",
-    "websocket": "^1.0.31"
+    "ws": "^1.0.31"
   },
   "devDependencies": {
     "@types/node": "^13.9.5",

@@ -88,16 +88,6 @@ interface ISecretsConfiguraion {
     jwt: String
 }
 
-export function makeid(length) {
-    var result = '';
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for (var i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-}
-
 /**
  * Save config to filesystem
  */
@@ -107,7 +97,7 @@ export function saveConfig() {
     });
 }
 
-console.info("Entering CLI mode...")
+console.info("Entering CLI mode...");
 if ($args._[0] !== undefined) {
     require("./utils/task").runTask($args._[0], $args)
 } else {
@@ -120,5 +110,4 @@ if ($args._[0] !== undefined) {
         const task = allTasks[taskID];
         console.log(" - " + chalk.green(taskID))
     }
-    
 }

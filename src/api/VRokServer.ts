@@ -3,7 +3,7 @@
 ///    Open source ngrok alternative,
 ///    for self-hosting
 ///  
-///    >> File: src/api/server.ts
+///    >> File: src/api/VRokServer.ts
 ///  
 ///    License: MIT
 ///    Repository: https://github.com/TheMRLokopOff/vrok
@@ -32,13 +32,6 @@ export class VRokServer {
     }
 
     run() {
-
+        // TODO: Implement
     }
-}
-
-export interface VRokServerListner {
-    onHttpCreated(http: any)
-    onWSCreated(ws: any)
-
-    onConnection(connection: any)
 }
