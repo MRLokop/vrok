@@ -9,12 +9,16 @@
 ///    (c) 2020 «Venity» and «MFSoftware»
 ///
 
+import {createServer, Server as httpServer} from 'http';
+
 /**
  * Listener
  */
 export interface VRokServerListener {
-    onHttpCreated(http: any)
+    onHttpCreated(http: httpServer)
     onWSCreated(ws: any)
 
     onConnection(connection: any)
+
+    onRequest();
 }

@@ -9,25 +9,54 @@
 ///    (c) 2020 «Venity» and «MFSoftware»
 ///
 
-import * as http from 'http';
-import { Server } from 'ws';
+import {createServer, Server as httpServer} from 'http';
+import {Server as wsServer} from 'ws';
 import chalk = require('chalk');
 import {VRokServerConfig} from "./server/VRokServerConfig";
+import {VRokServerListener} from "./server/VRokServerListener";
+import {VRokServerRouter} from "./server/VRokServerRouter";
 
 export class VRokServer {
-    private port: number;
     private __serverConfig: VRokServerConfig;
+    private __listener: VRokServerListener;
 
-    constructor(port: number) {
+    private __wsServer: wsServer;
+    private __httpServer: httpServer;
+    private __router: VRokServerRouter;
+
+    constructor(public port: number) {
         this.__serverConfig = new VRokServerConfig(this);
-        this.port = port;
     }
 
-    setServerConfigurer() : VRokServerConfig {
+    getServerConfigurer(): VRokServerConfig {
         return this.__serverConfig;
     }
 
-    run() {
-        // TODO: Implement
+
+    getListener(): VRokServerListener {
+        return this.__listener;
     }
+
+    setListener(listener: VRokServerListener): VRokServerListener {
+        return this.__listener = listener;
+    }
+
+
+    getRouter(): VRokServerRouter {
+        return this.__router;
+    }
+
+    setRouter(router: VRokServerRouter): VRokServerRouter {
+        return this.__router = router;
+    }
+
+    run() {
+        this.__httpServer = createServer(this.ro);
+        this.getListener().onHttpCreated(this.__httpServer);
+
+        this.__wsServer = new wsServer({
+            server: this.__httpServer
+        });
+    }
+
 }
